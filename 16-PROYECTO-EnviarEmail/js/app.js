@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const inputEmail = document.querySelector('#email');
     const inputAsunto = document.querySelector('#asunto');
     const inputMensaje = document.querySelector('#mensaje');
+    const inputCC = document.querySelector('#cc')
     const formulario = document.querySelector('#formulario');
     const btnSubmit = document.querySelector('#formulario button[type="submit"]')
     const btnReset = document.querySelector('#formulario button[type="reset"]')
@@ -52,10 +53,12 @@ document.addEventListener('DOMContentLoaded', function(){
     inputEmail.addEventListener('blur', validar);
     inputAsunto.addEventListener('blur', validar)
     inputMensaje.addEventListener('blur', validar);
-    
+    inputCC.addEventListener('blur',validar )
 
     function validar(event){
         if(event.target.value.trim() === ''){
+
+            
             mostrarAlerta(`el campo ${event.target.id} es obligatorio`, event.target.parentElement);
            email[event.target.name] = '';
             comprobarEmail();
@@ -74,8 +77,11 @@ document.addEventListener('DOMContentLoaded', function(){
         limpiarAlerta(event.target.parentElement);
 
         //asignando valores al objeto
-        email[event.target.name] = event.target.value.trim().toLowerCase();
+        if(event.target.name !== 'cc'){
+            email[event.target.name] = event.target.value.trim().toLowerCase();
 
+        }
+        
         //comprobar email
         comprobarEmail();
 
@@ -89,12 +95,16 @@ document.addEventListener('DOMContentLoaded', function(){
 
         //comprobar existencia
         limpiarAlerta(referencia)
+        if(referencia.querySelector('#cc')){
+            return;
+        }
 
         //alertamos por el error
         const error = document.createElement('p');
         error.textContent = mensaje;
         error.classList.add('bg-red-600', 'text-white', 'p-2', 'text-center')
         referencia.appendChild(error)
+        console.log(referencia);
     }
 
 
@@ -118,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
     function comprobarEmail(){
         if(Object.values(email).includes('')){
+            console.log(Object.values(email));
             btnSubmit.classList.add('opacity-50');
             btnSubmit.disabled = true;
         }else{
