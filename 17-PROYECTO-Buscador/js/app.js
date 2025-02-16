@@ -109,8 +109,20 @@ function llenarSelect(){
 
 function filtrarAutos(){
     const resultado = autos.filter(filtrarMarca).filter(filtrarYear).filter(filtrarPuertas).filter(filtrarTransmision).filter(filtrarColor).filter(filtrarPrecio);
-    // console.log(resultado);
-    mostrarAutos(resultado)
+   
+
+    if(resultado.length){
+        mostrarAutos(resultado)
+    }else{
+        sinResultado();
+    }
+}
+
+function sinResultado(){
+    const sinResultado = document.createElement('div');
+    sinResultado.classList.add('alerta', 'error');
+    sinResultado.textContent = 'No Hay Resultados :('
+    resultado.appendChild(sinResultado)
 }
 
 function filtrarMarca(auto){
