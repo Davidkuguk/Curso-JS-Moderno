@@ -10,4 +10,4 @@ localStorage.setItem('producto', productoString)
 console.log(productoString);
 
 const meses = ['enero', 'febrero', 'marzo']
-localStorage.setItem('meses', JSON.stringify(meses))
+localStorage.setItem('meses', JSON.stringify(meses));
