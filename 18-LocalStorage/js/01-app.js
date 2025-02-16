@@ -2,9 +2,12 @@ localStorage.setItem('Nombre', 'Juan');
 
 const producto = {
     nombre: 'monitor 30 pulgadas',
-    precio: 300
+    precio: 300,
 }
 
-const productoString = JSON.stringify(producto)
+const productoString = JSON.stringify(producto);
+localStorage.setItem('producto', productoString)
 console.log(productoString);
-console.log(typeof productoString);
+
+const meses = ['enero', 'febrero', 'marzo']
+localStorage.setItem('meses', JSON.stringify(meses))
