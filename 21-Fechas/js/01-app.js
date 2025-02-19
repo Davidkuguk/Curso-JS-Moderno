@@ -11,5 +11,5 @@ valor = diaHoy.getHours();
 valor = diaHoy.getMinutes();
 valor = diaHoy.getSeconds();
 
-
+console.log(Date.now());
 console.log( valor);
