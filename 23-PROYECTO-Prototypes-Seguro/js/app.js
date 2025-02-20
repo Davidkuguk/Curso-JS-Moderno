@@ -37,8 +37,6 @@ Seguro.prototype.cotizarseguro = function(){
 
     //cada año la diferencia es mayor, el costo va a reducirse un 3%
     cantidad -= ((diferencia *3) * cantidad)/ 100
-    console.log(cantidad);
-
     /**
      * si el seguro es basico se multiplica * 30%
      * si el seguro es completo se multiplica por 50%
@@ -79,6 +77,7 @@ UI.prototype.mostrarMensaje = function(mensaje, tipo){
         div.classList.add('error')
     }else{
         div.classList.add('correcto')
+    
     }
 
     div.classList.add('mensaje', 'mt-10')
@@ -94,16 +93,31 @@ UI.prototype.mostrarMensaje = function(mensaje, tipo){
 
 UI.prototype.mostrarResultado = ( total, seguro)=>{
 
+    const {marca, year, tipo} = seguro;
+
     //crear el resultado
     const div = document.createElement('div');
     div.classList.add('mt-10');
 
     div.innerHTML = `<p class="header"> Tu Resumen </p>
-                    <p class="font-bold"> Total ${total} </p>`
+                    <p class="font-bold">Total:<span class = 'font-normal'>  ${total} </span> </p>
+                     <p class="font-bold">Año:<span class = 'font-normal'>  ${year} </span> </p>`
 
 
     const resultadoDiv = document.querySelector('#resultado');
-    resultadoDiv.appendChild(div)
+   
+
+    //mostrar spinner
+    const spinner = document.querySelector('#cargando')
+    spinner.style.display = 'block';
+
+    setTimeout(() =>{
+        spinner.style.display = 'none';
+        resultadoDiv.appendChild(div);
+    },3000)
+
+  
+    
 }
 
 //instanciar UI
@@ -138,6 +152,12 @@ function cotizarseguro(e){
         return;
     }
     ui.mostrarMensaje('Cotizando...', 'exito')
+
+    //ocultar resultados previos 
+    const resultados = document.querySelector('#resultado div')
+    if(resultados !== null){
+        resultados.remove();
+    }
 
     const seguro = new Seguro(marca, year, tipo);
     const total = seguro.cotizarseguro();
