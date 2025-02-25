@@ -31,6 +31,12 @@ class Presupuesto{
         this.gastos = [...this.gastos, gasto];
         this.calcularRestante();
     }
+
+    calcularRestante(){
+        const gastado = Number(this.gastos.reduce( (total, gasto) => total + gasto.cantidad, 0));
+        this.restante = this.presupuesto - gastado;
+        console.log(gastado);
+    }
 }
 
 //Clase UI
@@ -111,12 +117,6 @@ class UI{
         document.querySelector('#restante').textContent = restante
     }
 
-    calcularRestante(){
-        const gastado = this.gastos.reduce((total, gasto) => total + gasto.cantidad, 0)
-        this.restante = this.presupuesto - gastado;
-
-        console.log(this.restante);
-    }
 }
 
 //instancias
@@ -143,8 +143,7 @@ function agregarGasto(e){
 
     //leer datos formulario
     const nombre = document.querySelector('#gasto').value;
-    const cantidad = document.querySelector('#cantidad').value;
-
+    const cantidad =document.querySelector('#cantidad').value;
     //gestionar errores del input
     if(nombre.trim() === '' || cantidad.trim() === ''){
         ui.imprimirAlerta('Ambos campos son obligatorios', 'error')
@@ -155,7 +154,7 @@ function agregarGasto(e){
 
     //generar objeto con el gasto
 
-    const gasto = {nombre, cantidad, id:Date.now()}
+    const gasto = {nombre, cantidad: Number(cantidad), id:Date.now()}
     
 
     //añade nuevo gasto
@@ -168,7 +167,6 @@ function agregarGasto(e){
     //imprimir los gastos
     const {gastos, restante} = presupuesto
     ui.agregarGastoListado(gastos)
-    ui.calcularRestante(restante);
     //reseteamos el formulario
     formulario.reset();
 }
