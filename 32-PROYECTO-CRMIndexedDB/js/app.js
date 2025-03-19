@@ -1,3 +1,4 @@
+//usamos una IFFIE para no invadir el sistema
 (function(){
 
     let DB;
@@ -7,18 +8,22 @@
 
         //crear la bbdd
         function crearDB(){
+            //Abrimos la conexion
             const crearDB = window.indexedDB.open('crm', 1);
 
+            //en caso de error
             crearDB.oneError = function(){
                 console.log('Hubo un error');
             }
 
+            //si todo sale bien
             crearDB.onsuccess = function(){
                 console.log('ejecutando bbdd');
                 DB = crearDB.result;
             }
 
             crearDB.onupgradeneeded = function(e){
+                //creamos las tablas
                 const db = e.target.result;
                 const objectStore = db.createObjectStore('crm', {keyPath: 'id', autoIncrement: true})
                 objectStore.createIndex('nombre', 'nombre', {unique: false});
