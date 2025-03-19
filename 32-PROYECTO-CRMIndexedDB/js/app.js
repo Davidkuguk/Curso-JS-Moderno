@@ -7,7 +7,7 @@
 
         //crear la bbdd
         function crearDB(){
-            const crearDB = window.indexedDB.opnes('crm', 1);
+            const crearDB = window.indexedDB.open('crm', 1);
 
             crearDB.oneError = function(){
                 console.log('Hubo un error');
