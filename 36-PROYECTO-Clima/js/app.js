@@ -65,44 +65,34 @@ function consultarAPI(ciudad, pais){
                 return;
             }
             mostrarClima(datos);
+            mostrarTemperatura(datos);
         })
        
         
        
 }
 
-//funcion para revelar los datos cargados por la api y convertirlos
-function mostrarClima(datos){
+//funcion mostrar temperatura
+function mostrarTemperatura(datos){
 
-    //datos
-    const kelvins = 273.15
-    const {name, main:{temp, temp_max, temp_min}, wind:{speed}} = datos;
+    const {main:{temp, temp_max, temp_min}} = datos;
+
+    //convertimos los Kl a Ce
+    const kelvins = 273.15;
 
     //convercion
     let celciusTemp = temp - kelvins;
     let celciusTempMax = temp_max - kelvins;
-    let celciusTempMin = temp_min - kelvins; 
-    let velocidadViento = speed * 1.60934;
+    let celciusTempMin = temp_min - kelvins;
 
+    //limitamos los decimales
     celciusTemp = celciusTemp.toFixed(1);
     celciusTempMax = celciusTempMax.toFixed(1);
     celciusTempMin = celciusTempMin.toFixed(1);
-    velocidadViento = velocidadViento.toFixed(1)
-    //insercion en el html
 
-    //datos tiempo
     const actual = document.createElement('P');
     const max = document.createElement('P');
     const min = document.createElement('P');
-    const nombreCiudad = document.createElement('P');
-
-    //datos viento
-    const velocidadVientoP = document.createElement('P')
-    velocidadVientoP.innerHTML= `Viento ${velocidadViento} km/h`;
-    velocidadVientoP.classList.add('font-bold', 'text-xl', 'text-white')
-
-    nombreCiudad.textContent  = `El Tiempo en ${name}`;
-    nombreCiudad.classList.add('text-center', 'text-white')
 
     actual.innerHTML = `${celciusTemp} &#8451;`
     max.innerHTML = `Maxima ${celciusTempMax} &#8451;`
@@ -113,10 +103,37 @@ function mostrarClima(datos){
     min.classList.add('font-bold', 'text-xl', 'text-white');
 
     const resultadoDiv = document.createElement('DIV')
-    resultadoDiv.appendChild(nombreCiudad)
     resultadoDiv.appendChild(actual)
     resultadoDiv.appendChild(max)
     resultadoDiv.appendChild(min)
+
+    resultado.appendChild(resultadoDiv)
+
+}
+
+//funcion para revelar los datos cargados por la api y convertirlos
+function mostrarClima(datos){
+    const {name} = datos
+    mostrarTemperatura(datos);
+  
+    let velocidadViento = speed * 1.60934;
+
+
+    velocidadViento = velocidadViento.toFixed(1)
+    //insercion en el html
+
+    const nombreCiudad = document.createElement('P');
+
+    //datos viento
+    const velocidadVientoP = document.createElement('P')
+    velocidadVientoP.innerHTML= `Viento ${velocidadViento} km/h`;
+    velocidadVientoP.classList.add('font-bold', 'text-xl', 'text-white')
+
+    nombreCiudad.textContent  = `El Tiempo en ${name}`;
+    nombreCiudad.classList.add('text-center', 'text-white')
+
+    const resultadoDiv = document.createElement('DIV')
+    resultadoDiv.appendChild(nombreCiudad)
     resultadoDiv.appendChild(velocidadVientoP)
 
     resultado.appendChild(resultadoDiv)
