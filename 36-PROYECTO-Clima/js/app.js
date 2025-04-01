@@ -122,32 +122,28 @@ function mostrarCiudad(datos){
 
 }
 
-//funcion para revelar los datos cargados por la api y convertirlos
-function mostrarClima(datos){
-
-
+function mostrarViento(datos){
+    
     const { wind: {speed}} = datos
     let velocidadViento = speed * 1.60934;
     velocidadViento = velocidadViento.toFixed(1)
 
-    //insercion en el html
-    
-
-    //datos viento
     const velocidadVientoP = document.createElement('P')
     velocidadVientoP.innerHTML= `Viento ${velocidadViento} km/h`;
     velocidadVientoP.classList.add('font-bold', 'text-xl', 'text-white')
 
-
     const resultadoDiv = document.createElement('DIV');
-    mostrarCiudad(datos)
-    mostrarTemperatura(datos);
-    
     resultadoDiv.appendChild(velocidadVientoP)
 
     resultado.appendChild(resultadoDiv)
+}
 
-
+//funcion para revelar los datos cargados por la api y convertirlos
+function mostrarClima(datos){
+    mostrarCiudad(datos)
+    mostrarTemperatura(datos);
+    mostrarViento(datos);
+    
 }
 
 
