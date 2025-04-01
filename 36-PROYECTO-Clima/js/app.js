@@ -65,7 +65,6 @@ function consultarAPI(ciudad, pais){
                 return;
             }
             mostrarClima(datos);
-            mostrarTemperatura(datos);
         })
        
         
@@ -113,8 +112,8 @@ function mostrarTemperatura(datos){
 
 //funcion para revelar los datos cargados por la api y convertirlos
 function mostrarClima(datos){
-    const {name} = datos
-    mostrarTemperatura(datos);
+    const {name, wind: {speed}} = datos
+  
   
     let velocidadViento = speed * 1.60934;
 
@@ -134,6 +133,7 @@ function mostrarClima(datos){
 
     const resultadoDiv = document.createElement('DIV')
     resultadoDiv.appendChild(nombreCiudad)
+    mostrarTemperatura(datos);
     resultadoDiv.appendChild(velocidadVientoP)
 
     resultado.appendChild(resultadoDiv)
