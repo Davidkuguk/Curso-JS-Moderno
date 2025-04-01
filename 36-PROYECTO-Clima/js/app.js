@@ -23,6 +23,7 @@ function buscarClima(e){
 
 }
 
+
 function mostrarError(mensaje){
     const alerta = document.querySelector('.alerta');
 
@@ -49,14 +50,20 @@ function consultarAPI(ciudad, pais){
     const appID = 'c6fa89e16ae43b683b34fbbec05b7917';
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appID}`;
 
+    spinner();
+
     fetch(url)
         .then(result => result.json())
         .then(datos =>{
+
+            limpiarHTML();
+
             if(datos.cod === '404'){
-                mostrarError('Ciudad No encontrada')
-                return
+                
+                mostrarError('Ciudad No encontrada');
+                return;
             }
-            mostrarClima(datos)
+            mostrarClima(datos);
         })
        
         //mostrar en la pagina
@@ -64,9 +71,10 @@ function consultarAPI(ciudad, pais){
 }
 
 function mostrarClima(datos){
+
     //datos
     const kelvins = 273.15
-    const {main:{temp, temp_max, temp_min}} = datos;
+    const {name, main:{temp, temp_max, temp_min}} = datos;
 
     //convercion
     let celciusTemp = temp - kelvins;
@@ -77,9 +85,67 @@ function mostrarClima(datos){
     celciusTempMax = celciusTempMax.toFixed(1);
     celciusTempMin = celciusTempMin.toFixed(1);
 
-    console.log(celciusTemp.toFixed(1));
-    console.log(celciusTempMax.toFixed(1));
-    console.log(celciusTempMin.toFixed(1));
+    //insercion en el html
+
+    const actual = document.createElement('P');
+    const max = document.createElement('P');
+    const min = document.createElement('P');
+    const nombreCiudad = document.createElement('P');
+
+    nombreCiudad.textContent  = `El Tiempo en ${name}`;
+    nombreCiudad.classList.add('text-center', 'text-white')
+
+    actual.innerHTML = `${celciusTemp} &#8451;`
+    max.innerHTML = `Maxima ${celciusTempMax} &#8451;`
+    min.innerHTML =`Minima ${celciusTempMin} &#8451;`
+
+    actual.classList.add('font-bold', 'text-5xl', 'text-white');
+    max.classList.add('font-bold', 'text-xl', 'text-white');
+    min.classList.add('font-bold', 'text-xl', 'text-white');
+
+    const resultadoDiv = document.createElement('DIV')
+    resultadoDiv.appendChild(nombreCiudad)
+    resultadoDiv.appendChild(actual)
+    resultadoDiv.appendChild(max)
+    resultadoDiv.appendChild(min)
+
+    resultado.appendChild(resultadoDiv)
 
 
+}
+
+
+//funcion para limpiar el html del resultado de los grados
+function limpiarHTML(){
+    while(resultado.firstChild){
+        resultado.removeChild(resultado.firstChild)
+    }
+}
+
+function spinner(){
+
+    limpiarHTML();
+
+    const divSpinner = document.createElement('div')
+    divSpinner.classList.add('sk-fading-circle');
+
+
+    divSpinner.innerHTML= `
+    <div class="sk-circle">
+  <div class="sk-circle1 sk-child"></div>
+  <div class="sk-circle2 sk-child"></div>
+  <div class="sk-circle3 sk-child"></div>
+  <div class="sk-circle4 sk-child"></div>
+  <div class="sk-circle5 sk-child"></div>
+  <div class="sk-circle6 sk-child"></div>
+  <div class="sk-circle7 sk-child"></div>
+  <div class="sk-circle8 sk-child"></div>
+  <div class="sk-circle9 sk-child"></div>
+  <div class="sk-circle10 sk-child"></div>
+  <div class="sk-circle11 sk-child"></div>
+  <div class="sk-circle12 sk-child"></div>
+</div>
+    `
+
+    resultado.appendChild(divSpinner)
 }
