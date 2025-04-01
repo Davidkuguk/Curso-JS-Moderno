@@ -52,6 +52,7 @@ function consultarAPI(ciudad, pais){
 
     spinner();
 
+    //llamamos a la api
     fetch(url)
         .then(result => result.json())
         .then(datos =>{
@@ -66,10 +67,11 @@ function consultarAPI(ciudad, pais){
             mostrarClima(datos);
         })
        
-        //mostrar en la pagina
+        
        
 }
 
+//funcion para revelar los datos cargados por la api y convertirlos
 function mostrarClima(datos){
 
     //datos
@@ -122,6 +124,8 @@ function limpiarHTML(){
     }
 }
 
+
+//funcion para generar un spinner mientras se espera respuesta de la api
 function spinner(){
 
     limpiarHTML();
