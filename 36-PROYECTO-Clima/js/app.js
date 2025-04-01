@@ -56,7 +56,7 @@ function consultarAPI(ciudad, pais){
     fetch(url)
         .then(result => result.json())
         .then(datos =>{
-
+            console.log(datos);
             limpiarHTML();
 
             if(datos.cod === '404'){
@@ -76,23 +76,30 @@ function mostrarClima(datos){
 
     //datos
     const kelvins = 273.15
-    const {name, main:{temp, temp_max, temp_min}} = datos;
+    const {name, main:{temp, temp_max, temp_min}, wind:{speed}} = datos;
 
     //convercion
     let celciusTemp = temp - kelvins;
     let celciusTempMax = temp_max - kelvins;
     let celciusTempMin = temp_min - kelvins; 
+    let velocidadViento = speed * 1.60934;
 
     celciusTemp = celciusTemp.toFixed(1);
     celciusTempMax = celciusTempMax.toFixed(1);
     celciusTempMin = celciusTempMin.toFixed(1);
-
+    velocidadViento = velocidadViento.toFixed(1)
     //insercion en el html
 
+    //datos tiempo
     const actual = document.createElement('P');
     const max = document.createElement('P');
     const min = document.createElement('P');
     const nombreCiudad = document.createElement('P');
+
+    //datos viento
+    const velocidadVientoP = document.createElement('P')
+    velocidadVientoP.innerHTML= `Viento ${velocidadViento} km/h`;
+    velocidadVientoP.classList.add('font-bold', 'text-xl', 'text-white')
 
     nombreCiudad.textContent  = `El Tiempo en ${name}`;
     nombreCiudad.classList.add('text-center', 'text-white')
@@ -110,6 +117,7 @@ function mostrarClima(datos){
     resultadoDiv.appendChild(actual)
     resultadoDiv.appendChild(max)
     resultadoDiv.appendChild(min)
+    resultadoDiv.appendChild(velocidadVientoP)
 
     resultado.appendChild(resultadoDiv)
 
